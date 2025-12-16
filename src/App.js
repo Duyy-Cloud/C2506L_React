@@ -11,7 +11,6 @@ function App() {
       <h1>Counter App</h1>
       <button onClick={increaseCount}>Increase</button>
       <button onClick={decreaseCount}>Decrease</button>
-      {/* Pass count as prop to Display component */}
       <Display count={count} />
     </div>
   );
