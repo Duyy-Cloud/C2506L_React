@@ -1,36 +1,35 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./components/List.css";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/users"
-        );
-        setUsers(response.data || []);
-      } catch (error) {
-        setErrorMessage("fetching data went wrong try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    const delayTimer = setTimeout(() => {
+      axios
+        .get("https://jsonplaceholder.typicode.com/users")
+        .then((response) => {
+          console.log("Response:", response.data);
+          setUsers(response.data ?? []);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError("Failed to fetch data");
+          setLoading(false);
+        });
+    }, 2000);
 
-    fetchUsers();
+    return () => clearTimeout(delayTimer);
   }, []);
 
   return (
     <div className="container">
-      {isLoading && <div className="loading">Loading...</div>}
-
-      {errorMessage && <div className="error">{errorMessage}</div>}
-
-      {!isLoading && !errorMessage && (
+      {loading && <div className="loading">Loading... Please wait</div>}{" "}
+      {error && <div className="error">{error}</div>}
+      {!loading && !error && (
         <div className="user-list">
           {users.map((user) => (
             <div className="user-card" key={user.id}>
