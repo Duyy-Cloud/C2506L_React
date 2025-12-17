@@ -1,10 +1,53 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import ProductCard from "./components/ProductCard";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Display from "./components/display";
+import "./components/List.css";
 
-const App = () => {
+const UserList = () => {
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        setUsers(response.data || []);
+      } catch (error) {
+        setErrorMessage("fetching data went wrong try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  return (
+    <div className="container">
+      {isLoading && <div className="loading">Loading...</div>}
+
+      {errorMessage && <div className="error">{errorMessage}</div>}
+
+      {!isLoading && !errorMessage && (
+        <div className="user-list">
+          {users.map((user) => (
+            <div className="user-card" key={user.id}>
+              <h3>{user.name}</h3>
+              <p>{user.email}</p>
+              <p>{user.phone}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UserList;
+
+/* const App = () => {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
@@ -37,7 +80,7 @@ const App = () => {
       </div>
     </div>
   );
-};
+}; */
 
 /* const App = () => {
   const [count, setCount] = useState(0);
@@ -55,4 +98,4 @@ const App = () => {
   );
 }; */
 
-export default App;
+/* export default App; */
