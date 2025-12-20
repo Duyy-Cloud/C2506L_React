@@ -1,8 +1,39 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import "./components/List.css";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import ProductList from "./components/ProductList";
+import ProductDetail from "./components/ProductDetail";
+import AddProduct from "./components/AddProduct";
+import LoginPage from "./components/LoginPage";
+import DashboardPage from "./components/DashboardPage";
 
-const UserList = () => {
+function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/" element={<LoginPage />} />
+    </Routes>
+  );
+}
+
+export default App;
+
+/* function App() {
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/product/:productId" element={<ProductDetail />} />
+        <Route path="/add-product" element={<AddProduct />} />
+      </Routes>
+    </div>
+  );
+}
+export default App; */
+
+/* const UserList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +48,7 @@ const UserList = () => {
           setLoading(false);
         })
         .catch((error) => {
-          setError("Failed to fetch data");
+          setError("fetching data went wrong try again ");
           setLoading(false);
         });
     }, 2000);
@@ -44,7 +75,7 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default UserList; */
 
 /* const App = () => {
   const [products, setProducts] = useState([]);
