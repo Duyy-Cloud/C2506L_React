@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Rating,
+} from "@mui/material";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -27,27 +35,44 @@ const DashboardPage = () => {
   return (
     <div>
       <header>
-        <h2>Dashboard</h2>
+        <Typography variant="h4" gutterBottom>
+          Dashboard
+        </Typography>
         <nav>
-          <button onClick={() => alert("Managing Products")}>
+          <Button
+            variant="contained"
+            onClick={() => alert("Managing Products")}
+          >
             Manage Products
-          </button>
-          <button onClick={() => alert("Managing Users")}>Manage Users</button>
-          <button onClick={handleLogout}>Logout</button>
+          </Button>
+          <Button variant="contained" onClick={() => alert("Managing Users")}>
+            Manage Users
+          </Button>
+          <Button variant="contained" color="error" onClick={handleLogout}>
+            Logout
+          </Button>
         </nav>
       </header>
 
-      <div>
-        <h3>Fake Products</h3>
-        <ul>
+      <div style={{ marginTop: "20px" }}>
+        <Typography variant="h6">Fake Products</Typography>
+        <Grid container spacing={2}>
           {fakeProducts.map((product) => (
-            <li key={product.id}>
-              {product.name} - {product.price}
-            </li>
+            <Grid item xs={12} sm={6} md={4} key={product.id}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">{product.name}</Typography>
+                  <Typography variant="body2">{product.price}</Typography>
+                  <Rating name="read-only" value={Math.random() * 5} readOnly />
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-        </ul>
+        </Grid>
 
-        <h3>Fake Users</h3>
+        <Typography variant="h6" style={{ marginTop: "30px" }}>
+          Fake Users
+        </Typography>
         <ul>
           {fakeUsers.map((user) => (
             <li key={user.id}>
